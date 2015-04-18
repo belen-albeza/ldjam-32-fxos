@@ -2,7 +2,7 @@
 
 var SPEED = 200;
 
-function LandEnemy(game, x, y) {
+function LandEnemy(game, x, y, options) {
   Phaser.Sprite.call(this, game, x, y, 'enemy');
   this.anchor.setTo(0.5, 0.5);
 
@@ -17,19 +17,22 @@ function LandEnemy(game, x, y) {
 
   this.tween = game.add.tween(this);
 
-  this.init();
+  this.init(options);
 }
 
 LandEnemy.prototype = Object.create(Phaser.Sprite.prototype);
 LandEnemy.prototype.constructor = LandEnemy;
 
-LandEnemy.prototype.init = function () {
+LandEnemy.prototype.init = function (options) {
   this.tween.stop();
 
   this.lastInWorld = this.inWorld;
   this.dying = false;
 
-  this.move(this.body.x > 0 ? -1 : 1);
+  this.y = 375;
+  this.x = options.side === 'right' ? this.game.world.width + 100 : -100;
+
+  this.move(this.x > 0 ? -1 : 1);
 };
 
 // TODO: this is repeated from Hero

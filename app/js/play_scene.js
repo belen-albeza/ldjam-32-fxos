@@ -1,8 +1,8 @@
 'use strict';
 
-var utils = require('./utils.js');
 var Hero = require('./hero.js');
 var LandEnemy = require('./enemy_land.js');
+var Wave = require('./wave.js');
 
 var PlayScene = {
   create: function () {
@@ -20,7 +20,6 @@ var PlayScene = {
 
     // setup enemies
     this.enemies = this.game.add.group();
-    utils.spawnSprite(this.enemies, LandEnemy, 950, 375);
 
     // setup input keys
     this.keys = this.game.input.keyboard.createCursorKeys();
@@ -32,11 +31,33 @@ var PlayScene = {
 
     // game over and victory
     this.hero.events.onKilled.add(this.gameOver, this);
+
+    // level data
+    this.waves = [
+      new Wave([
+        {offset: 0, klass: LandEnemy, side: 'right'},
+        {offset: 1000, klass: LandEnemy, side: 'left'}
+      ], this.enemies)
+    ];
+
+    this.depletedWaves = 0;
+    this.waves.forEach(function (x) {
+      x.onDepleted.add(function () {
+        this.depletedWaves++;
+      }, this);
+    }.bind(this));
   },
 
   update: function () {
     this.updateInput();
     this.detectCollisions();
+
+    // check for victory -> no more enemies
+    if (this.depletedWaves >= this.waves.length &&
+      this.enemies.countLiving() === 0) {
+      // TODO: call victory
+      this.victory();
+    }
   },
 
   updateInput: function () {
@@ -53,14 +74,16 @@ var PlayScene = {
 
   detectCollisions: function () {
     // guitar can kill enemies
-    this.game.physics.arcade.overlap(this.hero.guitar, this.enemies, function (hero, enemy) {
+    this.game.physics.arcade.overlap(this.hero.guitar, this.enemies,
+    function (hero, enemy) {
       enemy.die();
     }, function (hero, enemy) {
       return !enemy.dying;
     });
 
     // enemies can kill hero
-    this.game.physics.arcade.overlap(this.hero, this.enemies, function (hero, enemy) {
+    this.game.physics.arcade.overlap(this.hero, this.enemies,
+    function (hero) {
       hero.kill();
       hero.guitar.kill();
     }, function (hero, enemy) { // process function
@@ -71,6 +94,12 @@ var PlayScene = {
   gameOver: function () {
     // TODO: proper game over plz
     console.log('** game over **');
+    this.game.state.start('play'); // restart the game for now
+  },
+
+  victory: function () {
+    // TODO: proper victory plz
+    console.log('** victory **');
     this.game.state.start('play'); // restart the game for now
   }
 };
