@@ -32,7 +32,9 @@ Hero.prototype.init = function () {
 
 Hero.prototype.move = function (direction) {
   if (direction !== 0) { // -1 or 1 -> move left or right
-    this.body.velocity.x = SPEED * (direction > 0 ? 1 : -1);
+    var sign = direction > 0 ? 1 : -1;
+    this.body.velocity.x = SPEED * sign;
+    this.scale.x = sign;
   }
   else { // 0 -> stop
     this.body.velocity.x = 0;
@@ -45,6 +47,9 @@ Hero.prototype.jump = function () {
     this.body.velocity.y = -JUMP_SPEED;
   }
   // TODO: double jump
+};
+
+Hero.prototype.update = function () {
 };
 
 module.exports = Hero;
