@@ -54,7 +54,9 @@ var PlayScene = {
   detectCollisions: function () {
     // guitar can kill enemies
     this.game.physics.arcade.overlap(this.hero.guitar, this.enemies, function (hero, enemy) {
-      enemy.kill();
+      enemy.die();
+    }, function (hero, enemy) {
+      return !enemy.dying;
     });
 
     // enemies can kill hero
@@ -62,7 +64,7 @@ var PlayScene = {
       hero.kill();
       hero.guitar.kill();
     }, function (hero, enemy) { // process function
-      return enemy.alive;
+      return !enemy.dying;
     });
   },
 

@@ -15,6 +15,8 @@ function LandEnemy(game, x, y) {
     }
   }, this);
 
+  this.tween = game.add.tween(this);
+
   this.init();
 }
 
@@ -22,7 +24,11 @@ LandEnemy.prototype = Object.create(Phaser.Sprite.prototype);
 LandEnemy.prototype.constructor = LandEnemy;
 
 LandEnemy.prototype.init = function () {
+  this.tween.stop();
+
   this.lastInWorld = this.inWorld;
+  this.dying = false;
+
   this.move(this.body.x > 0 ? -1 : 1);
 };
 
@@ -38,13 +44,24 @@ LandEnemy.prototype.move = function (direction) {
   }
 };
 
+LandEnemy.prototype.flipDirection = function () {
+  this.move(this.body.velocity.x > 0 ? -1 : 1);
+};
+
+LandEnemy.prototype.die = function () {
+  this.dying = true;
+  this.move(0);
+
+  // play dead animation
+  this.tween.to({alpha: 0, tint: 0xff0000}, 200);
+  this.tween.onComplete.add(this.kill, this);
+  this.tween.start();
+};
+
 LandEnemy.prototype.update = function () {
   this.lastInWorld = this.inWorld;
 };
 
-LandEnemy.prototype.flipDirection = function () {
-  this.move(this.body.velocity.x > 0 ? -1 : 1);
-};
 
 
 module.exports = LandEnemy;
