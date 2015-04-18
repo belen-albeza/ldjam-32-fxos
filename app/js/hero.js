@@ -10,13 +10,13 @@ function Hero(game, x, y) {
   Phaser.Sprite.call(this, game, x, y, img);
   game.physics.enable(this);
 
+  this.anchor.setTo(0.5, 0.5);
+
   this.body.collideWorldBounds = true;
   this.body.gravity.y = GRAVITY;
   this.body.immovable = true;
 
-  this.guitar = this.game.add.sprite(this.body.width,
-                                     this.body.height / 2 + 10,
-                                     'guitar');
+  this.guitar = this.game.add.sprite(20, 10, 'guitar');
   this.guitar.anchor.setTo(0.5, 0.5);
   this.addChild(this.guitar);
 
