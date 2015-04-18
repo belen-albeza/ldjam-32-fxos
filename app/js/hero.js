@@ -19,16 +19,10 @@ function Hero(game, x, y) {
   this.guitar.anchor.setTo(0.5, 0.5);
   game.physics.enable(this.guitar, Phaser.Physics.ARCADE);
   this.addChild(this.guitar);
-
-  this.init();
 }
 
 Hero.prototype = Object.create(Phaser.Sprite.prototype);
 Hero.prototype.constructor = Hero;
-
-Hero.prototype.init = function () {
-  // clean up a slot
-};
 
 Hero.prototype.move = function (direction) {
   if (direction !== 0) { // -1 or 1 -> move left or right
@@ -48,9 +42,6 @@ Hero.prototype.jump = function () {
     return true;
   }
   // TODO: double jump
-};
-
-Hero.prototype.update = function () {
 };
 
 module.exports = Hero;

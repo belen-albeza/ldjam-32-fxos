@@ -21,11 +21,19 @@ module.exports = {
   },
 
   spawnSprite: function (group, klass, x, y, options) {
-    var instance = group.getFirstExists(false);
+    // get the first instance that exists OF THE SAME TYPE
+    var instance = null;
+    group.iterate('exists', false, Phaser.Group.RETURN_CHILD, function (x) {
+      if (!instance && x instanceof klass) {
+        instance = x;
+      }
+    }, this);
+    // var instance = group.getFirstExists(false);
+
     // reuse existing slot if available
     if (instance) {
       instance.reset(x, y);
-      if (instance.init) { instance.init(x, y, options); }
+      if (instance.init) { instance.init(options); }
     }
     // if there is no slot available, create a new sprite
     else {

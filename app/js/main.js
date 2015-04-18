@@ -25,7 +25,8 @@ var PreloaderScene = {
       'hero': 'chara.png',
       'guitar': 'guitar.png',
       'enemy': 'enemy00.png',
-      'bomber': 'bomber00.png'
+      'bomber': 'bomber00.png',
+      'bomb': 'bomb00.png'
     };
 
     Object.keys(images).forEach(function (key) {

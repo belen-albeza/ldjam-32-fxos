@@ -5,21 +5,27 @@ var LandEnemy = require('./enemy_land.js');
 var BomberEnemy = require('./enemy_bomber.js');
 var Wave = require('./wave.js');
 
-function spawnWaves(group) {
+function spawnWaves(group, throwables) {
   return [
     new Wave([
       {offset: 0, klass: LandEnemy, side: 'right'},
       {offset: 100, klass: LandEnemy, side: 'left'},
       {offset: 300, klass: LandEnemy, side: 'right'},
-      {offset: 500, klass: BomberEnemy, side: 'right'},
       {offset: 1000, klass: LandEnemy, side: 'left'},
       {offset: 1300, klass: LandEnemy, side: 'right'},
       {offset: 1310, klass: LandEnemy, side: 'left'},
       {offset: 1310, klass: LandEnemy, side: 'left'},
+      {offset: 2000, klass: BomberEnemy, side: 'left'},
       {offset: 2650, klass: LandEnemy, side: 'right'},
       {offset: 2700, klass: LandEnemy, side: 'left'}
-    ], group)
+    ], group, throwables)
   ];
+}
+
+function enemiesVsHero(hero) {
+  hero.kill();
+  hero.guitar.kill();
+  this.sfx.hit.play();
 }
 
 var PlayScene = {
@@ -34,16 +40,17 @@ var PlayScene = {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.world.setBounds(0, 0, 900, 420);
 
-    // create ground
+    // setup enemies and ground
+    this.enemyThrowables = this.game.add.group();
     this.ground = this.game.add.sprite(0, 500, 'ground');
     this.ground.anchor.setTo(0, 1);
+
+    // See how I digged my own grave because I didn't use composition :_(
+    this.enemies = this.game.add.group();
 
     // create main character
     this.hero = new Hero(this.game, 300, 200);
     this.game.add.existing(this.hero);
-
-    // setup enemies
-    this.enemies = this.game.add.group();
 
     // setup input keys
     this.keys = this.game.input.keyboard.createCursorKeys();
@@ -63,7 +70,7 @@ var PlayScene = {
   },
 
   spawnLevel: function () {
-    this.waves = spawnWaves(this.enemies);
+    this.waves = spawnWaves(this.enemies, this.enemyThrowables);
     this.depletedWaves = 0;
 
     this.waves.forEach(function (x) {
@@ -78,7 +85,8 @@ var PlayScene = {
     this.detectCollisions();
 
     // check for victory -> no more enemies
-    if (this.depletedWaves >= this.waves.length &&
+    if (this.waves.length > 0 &&
+      this.depletedWaves >= this.waves.length &&
       this.enemies.countLiving() === 0) {
       // TODO: call victory
       this.victory();
@@ -108,12 +116,14 @@ var PlayScene = {
     }, this);
 
     // enemies can kill hero
-    this.game.physics.arcade.overlap(this.hero, this.enemies,
-    function (hero) {
-      hero.kill();
-      hero.guitar.kill();
-      this.sfx.hit.play();
-    }, function (hero, enemy) { // process function
+    this.game.physics.arcade.overlap(this.hero, this.enemies, enemiesVsHero,
+    function (hero, enemy) { // process function
+      return !enemy.dying;
+    }, this);
+
+    // enemy throwables can kill hero too
+    this.game.physics.arcade.overlap(this.hero, this.enemyThrowables,
+    enemiesVsHero, function (hero, enemy) { // process function
       return !enemy.dying;
     }, this);
   },
@@ -121,14 +131,30 @@ var PlayScene = {
   gameOver: function () {
     // TODO: proper game over plz
     console.log('** game over **');
-    this.game.state.start('play'); // restart the game for now
+
+    this.wrathOfGod();
+    // this.spawnLevel();
+    this.game.state.restart(true, false); // restart the game for now
   },
 
   victory: function () {
     // TODO: proper victory plz
     console.log('** victory **');
+
     // re-spawn level
+    this.wrathOfGod();
     this.spawnLevel();
+  },
+
+  wrathOfGod: function () {
+    // clean up previous waves (and their events)
+    if (this.waves) {
+      this.waves.forEach(function (wave) {
+        wave.destroy();
+      });
+    }
+
+    this.enemies.removeChildren();
   }
 };
 

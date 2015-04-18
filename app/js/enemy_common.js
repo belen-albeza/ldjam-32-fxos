@@ -29,7 +29,7 @@ EnemyMixin.prototype.init = function (options) {
   this.alpha = 1;
   this.tint = 0xffffff;
 
-  this.lastInWorld = this.inWorld;
+  this.lastInWorld = false;
   this.dying = false;
 
   this.x = options.side === 'right' ? this.game.world.width + 100 : -100;
