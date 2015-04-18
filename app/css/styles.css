@@ -1,0 +1,26 @@
+body {
+  background: #000;
+  color: #ddd;
+  font-family: Courier, 'Courier New', monospace;
+  text-align: center;
+  text-transform: lowercase;
+}
+
+#game {
+  margin: 10px auto;
+  width: 900px;
+  height: 500px;
+}
+
+canvas {
+  background: #000;
+}
+
+a {
+  text-decoration: none;
+  color: #f36;
+}
+
+a:hover {
+  text-decoration: underline;
+}
