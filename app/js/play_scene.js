@@ -29,6 +29,9 @@ var PlayScene = {
     this.keys.up.onDown.add(function () {
       this.hero.jump();
     }.bind(this));
+
+    // game over and victory
+    this.hero.events.onKilled.add(this.gameOver, this);
   },
 
   update: function () {
@@ -49,10 +52,24 @@ var PlayScene = {
   },
 
   detectCollisions: function () {
-    this.enemies.setAll('tint', 0xffffff);
+    // guitar can kill enemies
     this.game.physics.arcade.overlap(this.hero.guitar, this.enemies, function (hero, enemy) {
-      enemy.tint = 0xff0000;
+      enemy.kill();
     });
+
+    // enemies can kill hero
+    this.game.physics.arcade.overlap(this.hero, this.enemies, function (hero, enemy) {
+      hero.kill();
+      hero.guitar.kill();
+    }, function (hero, enemy) { // process function
+      return enemy.alive;
+    });
+  },
+
+  gameOver: function () {
+    // TODO: proper game over plz
+    console.log('** game over **');
+    this.game.state.start('play'); // restart the game for now
   }
 };
 
