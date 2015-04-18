@@ -3,7 +3,7 @@
 function EnemyMixin (game, x, y, options) {
   options = options || {};
 
-  Phaser.Sprite.call(this, game, x, y, 'enemy');
+  Phaser.Sprite.call(this, game, x, y, options.image || 'enemy');
   this.anchor.setTo(0.5, 0.5);
 
   game.physics.enable(this, Phaser.Physics.ARCADE);
@@ -18,7 +18,6 @@ function EnemyMixin (game, x, y, options) {
   this.tween = game.add.tween(this);
 
   this.init(options);
-  console.log('wiiii');
 }
 
 EnemyMixin.prototype = Object.create(Phaser.Sprite.prototype);
@@ -33,7 +32,6 @@ EnemyMixin.prototype.init = function (options) {
   this.lastInWorld = this.inWorld;
   this.dying = false;
 
-  this.y = 375;
   this.x = options.side === 'right' ? this.game.world.width + 100 : -100;
 
   this.move(this.x > 0 ? -1 : 1);

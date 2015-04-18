@@ -25,7 +25,7 @@ module.exports = {
     // reuse existing slot if available
     if (instance) {
       instance.reset(x, y);
-      if (instance.init) { instance.init(options); }
+      if (instance.init) { instance.init(x, y, options); }
     }
     // if there is no slot available, create a new sprite
     else {

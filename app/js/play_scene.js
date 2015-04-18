@@ -2,6 +2,7 @@
 
 var Hero = require('./hero.js');
 var LandEnemy = require('./enemy_land.js');
+var BomberEnemy = require('./enemy_bomber.js');
 var Wave = require('./wave.js');
 
 function spawnWaves(group) {
@@ -10,6 +11,7 @@ function spawnWaves(group) {
       {offset: 0, klass: LandEnemy, side: 'right'},
       {offset: 100, klass: LandEnemy, side: 'left'},
       {offset: 300, klass: LandEnemy, side: 'right'},
+      {offset: 500, klass: BomberEnemy, side: 'right'},
       {offset: 1000, klass: LandEnemy, side: 'left'},
       {offset: 1300, klass: LandEnemy, side: 'right'},
       {offset: 1310, klass: LandEnemy, side: 'left'},
