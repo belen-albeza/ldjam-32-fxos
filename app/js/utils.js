@@ -1,6 +1,25 @@
 'use strict'  ;
 
-module.exports= {
+module.exports = {
+  // from http://youmightnotneedjquery.com
+  extend: function (out) {
+    /*jshint -W073 */
+    out = out || {};
+
+    for (var i = 1; i < arguments.length; i++) {
+      if (!arguments[i]) { continue; }
+
+      for (var key in arguments[i]) {
+        if (arguments[i].hasOwnProperty(key)) {
+          out[key] = arguments[i][key];
+        }
+      }
+    }
+
+    return out;
+    /*jshint +W073 */
+  },
+
   spawnSprite: function (group, klass, x, y, options) {
     var instance = group.getFirstExists(false);
     // reuse existing slot if available
