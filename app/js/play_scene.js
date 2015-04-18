@@ -4,6 +4,22 @@ var Hero = require('./hero.js');
 var LandEnemy = require('./enemy_land.js');
 var Wave = require('./wave.js');
 
+function spawnWaves(group) {
+  return [
+    new Wave([
+      {offset: 0, klass: LandEnemy, side: 'right'},
+      {offset: 100, klass: LandEnemy, side: 'left'},
+      {offset: 300, klass: LandEnemy, side: 'right'},
+      {offset: 1000, klass: LandEnemy, side: 'left'},
+      {offset: 1300, klass: LandEnemy, side: 'right'},
+      {offset: 1310, klass: LandEnemy, side: 'left'},
+      {offset: 1310, klass: LandEnemy, side: 'left'},
+      {offset: 2650, klass: LandEnemy, side: 'right'},
+      {offset: 2700, klass: LandEnemy, side: 'left'}
+    ], group)
+  ];
+}
+
 var PlayScene = {
   create: function () {
     this.sfx = {
@@ -21,7 +37,7 @@ var PlayScene = {
     this.ground.anchor.setTo(0, 1);
 
     // create main character
-    this.hero = new Hero(this.game, 100, 200);
+    this.hero = new Hero(this.game, 300, 200);
     this.game.add.existing(this.hero);
 
     // setup enemies
@@ -39,15 +55,14 @@ var PlayScene = {
     // game over and victory
     this.hero.events.onKilled.add(this.gameOver, this);
 
-    // level data
-    this.waves = [
-      new Wave([
-        {offset: 0, klass: LandEnemy, side: 'right'},
-        {offset: 1000, klass: LandEnemy, side: 'left'}
-      ], this.enemies)
-    ];
+    // spawn enemies
+    this.spawnLevel();
+  },
 
+  spawnLevel: function () {
+    this.waves = spawnWaves(this.enemies);
     this.depletedWaves = 0;
+
     this.waves.forEach(function (x) {
       x.onDepleted.add(function () {
         this.depletedWaves++;
@@ -109,7 +124,8 @@ var PlayScene = {
   victory: function () {
     // TODO: proper victory plz
     console.log('** victory **');
-    this.game.state.start('play'); // restart the game for now
+    // re-spawn level
+    this.spawnLevel();
   }
 };
 

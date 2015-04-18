@@ -25,6 +25,8 @@ LandEnemy.prototype.constructor = LandEnemy;
 
 LandEnemy.prototype.init = function (options) {
   this.tween.stop();
+  this.alpha = 1;
+  this.tint = 0xffffff;
 
   this.lastInWorld = this.inWorld;
   this.dying = false;
