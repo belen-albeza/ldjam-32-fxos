@@ -1,10 +1,13 @@
 'use strict';
 
+var utils = require('./utils.js');
 var Hero = require('./hero.js');
+var LandEnemy = require('./enemy_land.js');
 
 var PlayScene = {
   create: function () {
     // setup physics
+    this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.world.setBounds(0, 0, 900, 420);
 
     // create ground
@@ -14,6 +17,10 @@ var PlayScene = {
     // create main character
     this.hero = new Hero(this.game, 100, 200);
     this.game.add.existing(this.hero);
+
+    // setup enemies
+    this.enemies = this.game.add.group();
+    utils.spawnSprite(this.enemies, LandEnemy, 950, 375);
 
     // setup input keys
     this.keys = this.game.input.keyboard.createCursorKeys();
@@ -26,6 +33,7 @@ var PlayScene = {
 
   update: function () {
     this.updateInput();
+    this.detectCollisions();
   },
 
   updateInput: function () {
@@ -38,6 +46,13 @@ var PlayScene = {
     else {
       this.hero.move(0);
     }
+  },
+
+  detectCollisions: function () {
+    this.enemies.setAll('tint', 0xffffff);
+    this.game.physics.arcade.overlap(this.hero.guitar, this.enemies, function (hero, enemy) {
+      enemy.tint = 0xff0000;
+    });
   }
 };
 

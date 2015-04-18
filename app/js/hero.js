@@ -8,16 +8,16 @@ function Hero(game, x, y) {
   var img = 'hero';
 
   Phaser.Sprite.call(this, game, x, y, img);
-  game.physics.enable(this);
-
   this.anchor.setTo(0.5, 0.5);
 
+  game.physics.enable(this, Phaser.Physics.ARCADE);
   this.body.collideWorldBounds = true;
   this.body.gravity.y = GRAVITY;
   this.body.immovable = true;
 
   this.guitar = this.game.add.sprite(20, 10, 'guitar');
   this.guitar.anchor.setTo(0.5, 0.5);
+  game.physics.enable(this.guitar, Phaser.Physics.ARCADE);
   this.addChild(this.guitar);
 
   this.init();
