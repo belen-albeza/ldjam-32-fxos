@@ -4,7 +4,7 @@ Entry for [Ludum Dare #32](http://ludumdare.com/compo/2015/04/15/welcome-to-ludu
 
 ## Play
 
-TODO
+[Play the game](http://lab.belenalbeza.com/games/ldjam-32)!
 
 ## License
 
