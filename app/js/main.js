@@ -31,6 +31,16 @@ var PreloaderScene = {
       this.game.load.image(key, 'images/' + images[key]);
     }.bind(this));
 
+    // load sfx
+    var sfx = {
+      'jump': 'chara_jump.wav',
+      'hit': 'hit.wav',
+      'pickup': 'pickup.wav'
+    };
+    Object.keys(sfx).forEach(function (key) {
+      this.game.load.audio(key, 'audio/' + sfx[key]);
+    }.bind(this));
+
     // TODO: load sfx
   },
 

@@ -6,6 +6,12 @@ var Wave = require('./wave.js');
 
 var PlayScene = {
   create: function () {
+    this.sfx = {
+      jump: this.game.add.audio('jump'),
+      hit: this.game.add.audio('hit'),
+      pickup: this.game.add.audio('pickup')
+    };
+
     // setup physics
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
     this.game.world.setBounds(0, 0, 900, 420);
@@ -26,6 +32,7 @@ var PlayScene = {
     // this.keys.spacebar = this.game.input.keyboard.addKey(
     //   Phaser.Keyboard.SPACEBAR);
     this.keys.up.onDown.add(function () {
+      this.sfx.jump.play();
       this.hero.jump();
     }.bind(this));
 
@@ -77,18 +84,20 @@ var PlayScene = {
     this.game.physics.arcade.overlap(this.hero.guitar, this.enemies,
     function (hero, enemy) {
       enemy.die();
+      this.sfx.hit.play();
     }, function (hero, enemy) {
       return !enemy.dying;
-    });
+    }, this);
 
     // enemies can kill hero
     this.game.physics.arcade.overlap(this.hero, this.enemies,
     function (hero) {
       hero.kill();
       hero.guitar.kill();
+      this.sfx.hit.play();
     }, function (hero, enemy) { // process function
       return !enemy.dying;
-    });
+    }, this);
   },
 
   gameOver: function () {
