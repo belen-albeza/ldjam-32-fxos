@@ -45,6 +45,7 @@ Hero.prototype.jump = function () {
   // only jump when on the ground
   if (this.body.blocked.down) {
     this.body.velocity.y = -JUMP_SPEED;
+    return true;
   }
   // TODO: double jump
 };

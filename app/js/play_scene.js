@@ -48,8 +48,9 @@ var PlayScene = {
     // this.keys.spacebar = this.game.input.keyboard.addKey(
     //   Phaser.Keyboard.SPACEBAR);
     this.keys.up.onDown.add(function () {
-      this.sfx.jump.play();
-      this.hero.jump();
+      if (this.hero.jump()) {
+        this.sfx.jump.play();
+      }
     }.bind(this));
 
     // game over and victory
