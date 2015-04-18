@@ -19,7 +19,18 @@ var PreloaderScene = {
     this.loadingBar.anchor.setTo(0, 0.5);
     this.load.setPreloadSprite(this.loadingBar);
 
-    // TODO: load here assets for the game
+    // load images
+    var images = {
+      'ground': 'ground.png',
+      'hero': 'chara.png',
+      'guitar': 'guitar.png'
+    };
+
+    Object.keys(images).forEach(function (key) {
+      this.game.load.image(key, 'images/' + images[key]);
+    }.bind(this));
+
+    // TODO: load sfx
   },
 
   create: function () {
