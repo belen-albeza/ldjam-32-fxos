@@ -25,8 +25,10 @@ var PreloaderScene = {
       'ground': 'ground.png',
       'hero': 'chara.png',
       'guitar': 'guitar.png',
-      'enemy': 'enemy00.png',
+      'walker': 'enemy00.png',
+      'walker_hands': 'enemy00_hands.png',
       'bomber': 'bomber00.png',
+      'bomber_wings': 'bomber00_wings.png',
       'bomb': 'bomb00.png'
     };
 
