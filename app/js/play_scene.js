@@ -71,8 +71,11 @@ var PlayScene = {
     this.sfx = {
       jump: this.game.add.audio('jump'),
       hit: this.game.add.audio('hit'),
-      pickup: this.game.add.audio('pickup')
+      pickup: this.game.add.audio('pickup'),
+      next: this.game.add.audio('next_wave')
     };
+    this.soundtrack = this.game.add.audio('background');
+    this.soundtrack.loopFull(0.8);
 
     // setup physics
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -136,14 +139,15 @@ var PlayScene = {
   },
 
   spawnLevel: function () {
+    this.currentWave = 0;
     this.waves = setupWaves(this.enemies, this.enemyThrowables);
-    this.depletedWaveCount = 0;
+    // this.depletedWaveCount = 0;
 
-    this.waves.forEach(function (x) {
-      x.onDepleted.add(function () {
-        this.depletedWaveCount++;
-      }, this);
-    }.bind(this));
+    // this.waves.forEach(function (x) {
+    //   x.onDepleted.add(function () {
+    //     this.depletedWaveCount++;
+    //   }, this);
+    // }.bind(this));
 
     // start the first wave
     if (this.waves.length > 0) {
@@ -157,12 +161,14 @@ var PlayScene = {
 
     // check for end of wave
     if (!isGameOver && this.waves.length > 0 &&
-    this.enemies.countLiving() === 0) {
+    this.enemies.countLiving() === 0 &&
+    this.waves[this.currentWave].depleted) {
       // all waves finished?
-      if (this.depletedWaveCount >= this.waves.length) {
+      if (this.currentWave >= this.waves.length - 1) {
         this.victory();
       }
       else { // still waves to go…
+        this.sfx.next.play();
         this.nextWave();
       }
     }
@@ -289,9 +295,10 @@ var PlayScene = {
   },
 
   nextWave: function () {
-    this.waves[this.depletedWaveCount].start();
+    this.currentWave++;
+    this.waves[this.currentWave].start();
     // update UI
-    this.waveText.setText('Wave #' + (this.depletedWaveCount + 1) + ' ');
+    this.waveText.setText('Wave #' + (this.currentWave) + ' ');
 
     this.nextWaveText.visible = true;
     this.nextWaveText.alpha = 1;
@@ -315,6 +322,7 @@ var PlayScene = {
     }
 
     this.enemies.removeChildren();
+    this.soundtrack.stop();
   },
 
   // TODO: right now for debug only -- remove later
