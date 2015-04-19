@@ -6,9 +6,16 @@ var BomberEnemy = require('./enemy_bomber.js');
 var Wave = require('./wave.js');
 
 var GREEN = '#aded4f';
+var RED = '#e40f00';
 
-function spawnWaves(group, throwables) {
+function setupWaves(group, throwables) {
   return [
+    new Wave([
+      {offset: 0, klass: LandEnemy, side: 'right'},
+      {offset: 100, klass: LandEnemy, side: 'left'},
+      {offset: 300, klass: LandEnemy, side: 'right'}
+    ], group, throwables),
+
     new Wave([
       {offset: 0, klass: LandEnemy, side: 'right'},
       {offset: 100, klass: LandEnemy, side: 'left'},
@@ -49,7 +56,6 @@ var PlayScene = {
     this.ground = this.game.add.sprite(0, 500, 'ground');
     this.ground.anchor.setTo(0, 1);
 
-
     // setup enemies
     // see how I digged my own grave because I didn't use composition :_(
     this.enemyThrowables = this.game.add.group();
@@ -61,10 +67,8 @@ var PlayScene = {
 
     // setup input keys
     this.keys = this.game.input.keyboard.createCursorKeys();
-    // this.keys.spacebar = this.game.input.keyboard.addKey(
-    //   Phaser.Keyboard.SPACEBAR);
     this.keys.up.onDown.add(function () {
-      if (this.hero.jump()) {
+      if (this.hero.alive && this.hero.jump()) {
         this.sfx.jump.play();
       }
     }.bind(this));
@@ -88,33 +92,52 @@ var PlayScene = {
       fill: GREEN
     };
 
-    var waveText = this.game.add.text(10, 0, 'Wave #1', fontStyle);
-    waveText.setShadow(-4, 4, '#000', 0);
-    this.ui.add(waveText);
+    this.waveText = this.game.add.text(10, 0, 'Wave #1 ', fontStyle);
+    this.waveText.setShadow(-4, 4, '#000', 0);
+    this.ui.add(this.waveText);
+
+
+    this.nextWaveText = this.game.add.text(450, 140, ' Next wave! ', {
+      font: '50px Bangers',
+      fill: GREEN
+    });
+    this.nextWaveText.anchor.setTo(0.5, 0.5);
+    this.nextWaveText.setShadow(-4, 4, '#000', 0);
+    this.nextWaveText.visible = false;
+
+    this.ui.add(this.nextWaveText);
   },
 
   spawnLevel: function () {
-    this.waves = spawnWaves(this.enemies, this.enemyThrowables);
-    this.depletedWaves = 0;
+    this.waves = setupWaves(this.enemies, this.enemyThrowables);
+    this.depletedWaveCount = 0;
 
     this.waves.forEach(function (x) {
       x.onDepleted.add(function () {
-        this.depletedWaves++;
+        this.depletedWaveCount++;
       }, this);
     }.bind(this));
+
+    // start the first wave
+    if (this.waves.length > 0) {
+      this.waves[0].start();
+    }
   },
 
   update: function () {
     this.updateInput();
     this.detectCollisions();
 
-    // check for victory -> no more enemies
-    if (!isGameOver &&
-      this.waves.length > 0 &&
-      this.depletedWaves >= this.waves.length &&
-      this.enemies.countLiving() === 0) {
-      // TODO: call victory
-      this.victory();
+    // check for end of wave
+    if (!isGameOver && this.waves.length > 0 &&
+    this.enemies.countLiving() === 0) {
+      // all waves finished?
+      if (this.depletedWaveCount >= this.waves.length) {
+        this.victory();
+      }
+      else { // still waves to go…
+        this.nextWave();
+      }
     }
   },
 
@@ -158,18 +181,94 @@ var PlayScene = {
     console.log('** game over **');
 
     isGameOver = true;
-    this.wrathOfGod();
-    // this.spawnLevel();
-    this.game.state.restart(true, false); // restart the game for now
+
+    // create game over text
+    var banner = this.game.add.text(450, 200, ' Game Over ', {
+      font: '60px Bangers',
+      fill: GREEN
+    });
+    banner.anchor.set(0.5, 0.5);
+    banner.setShadow(-4, 4, '#000', 0);
+
+    // create misc text
+    var button = this.game.add.text(450, 260, '- click to restart -', {
+      font: '24px Courier, "Courier New", monospace',
+      fill: '#fff'
+    });
+    button.anchor.set(0.5, 0.5);
+    button.setShadow(-2, 2, '#000', 0);
+    button.inputEnabled = true;
+    button.input.useHandCursor = true;
+    button.events.onInputUp.add(function () {
+      this.wrathOfGod();
+      this.game.state.restart(true, false); // restart the game for now
+    }, this);
+    button.events.onInputOver.add(function () {
+      button.fill = RED;
+    }, this);
+    button.events.onInputOut.add(function () {
+      button.fill = '#fff';
+    });
+
+    this.ui.add(banner);
+    this.ui.add(button);
   },
 
   victory: function () {
-    // TODO: proper victory plz
+    // TODO: proper victory plz with fireworks and particles and…
     console.log('** victory **');
+    isGameOver = true;
 
-    // re-spawn level
-    this.wrathOfGod();
-    this.spawnLevel();
+    // Yes, REPEATED from gameOver but it's late and I DON'T CARE :)
+
+    // create game over text
+    var banner = this.game.add.text(450, 200, ' Victory! ', {
+      font: '60px Bangers',
+      fill: GREEN
+    });
+    banner.anchor.set(0.5, 0.5);
+    banner.setShadow(-4, 4, '#000', 0);
+
+    // create misc text
+    var button = this.game.add.text(450, 260, '- click to restart -', {
+      font: '24px Courier, "Courier New", monospace',
+      fill: '#fff'
+    });
+    button.anchor.set(0.5, 0.5);
+    button.setShadow(-2, 2, '#000', 0);
+    button.inputEnabled = true;
+    button.input.useHandCursor = true;
+    button.events.onInputUp.add(function () {
+      this.wrathOfGod();
+      this.game.state.restart(true, false); // restart the game for now
+    }, this);
+    button.events.onInputOver.add(function () {
+      button.fill = RED;
+    }, this);
+    button.events.onInputOut.add(function () {
+      button.fill = '#fff';
+    });
+
+    this.ui.add(banner);
+    this.ui.add(button);
+  },
+
+  nextWave: function () {
+    this.waves[this.depletedWaveCount].start();
+    // update UI
+    this.waveText.setText('Wave #' + (this.depletedWaveCount + 1) + ' ');
+
+    this.nextWaveText.visible = true;
+    this.nextWaveText.alpha = 1;
+    var tween = this.game.add.tween(this.nextWaveText);
+    tween.to({alpha: 0}, 100, Phaser.Easing.LINEAR, false, 0, 4, true)
+      .to({alpha: 0}, 300, Phaser.Easing.LINEAR, false, 400);
+
+    tween.onComplete.add(function () {
+      this.nextWaveText.visible = false;
+    }, this);
+
+    tween.start();
   },
 
   wrathOfGod: function () {

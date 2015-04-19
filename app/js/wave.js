@@ -19,10 +19,13 @@ function Wave(data, group, throwablesGroup) {
   this.timer.onComplete.add(function () {
     this.timer = null;
     this.onDepleted.dispatch(this);
+    this.depleted = true;
   }, this);
-
-  this.timer.start();
 }
+
+Wave.prototype.start = function () {
+  this.timer.start();
+};
 
 Wave.prototype.destroy = function () {
   if (this.timer) {

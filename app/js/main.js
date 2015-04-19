@@ -65,6 +65,12 @@ function startGame() {
 }
 
 window.onload = function () {
+  // for dev mode
+  // document.querySelector('.overlayG').style.display = 'none';
+  // startGame();
+
+  // for production
+
   document.getElementById('play').addEventListener('click', function (evt) {
     evt.preventDefault();
     // hide overlay
