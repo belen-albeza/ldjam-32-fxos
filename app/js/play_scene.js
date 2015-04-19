@@ -28,6 +28,8 @@ function enemiesVsHero(hero) {
   this.sfx.hit.play();
 }
 
+var isGameOver = false;
+
 var PlayScene = {
   create: function () {
     this.sfx = {
@@ -70,6 +72,8 @@ var PlayScene = {
 
     // spawn enemies
     this.spawnLevel();
+
+    isGameOver = false;
   },
 
   spawnLevel: function () {
@@ -88,7 +92,8 @@ var PlayScene = {
     this.detectCollisions();
 
     // check for victory -> no more enemies
-    if (this.waves.length > 0 &&
+    if (!isGameOver &&
+      this.waves.length > 0 &&
       this.depletedWaves >= this.waves.length &&
       this.enemies.countLiving() === 0) {
       // TODO: call victory
@@ -135,6 +140,7 @@ var PlayScene = {
     // TODO: proper game over plz
     console.log('** game over **');
 
+    isGameOver = true;
     this.wrathOfGod();
     // this.spawnLevel();
     this.game.state.restart(true, false); // restart the game for now
