@@ -4,7 +4,7 @@ var EnemyMixin = require('./enemy_common.js');
 var Bomb = require('./enemy_bomb.js');
 var utils = require('./utils.js');
 
-var INIT_Y = 150;
+var INIT_Y = 170;
 
 function BomberEnemy(game, x, y, options) {
   options.image = 'bomber';
@@ -36,7 +36,7 @@ BomberEnemy.prototype.update = function () {
   if (!this.exists) { return; }
 
   EnemyMixin.prototype.update.call(this);
-  if (this.game.rnd.between(0, 100) < 3) {
+  if (this.game.rnd.between(0, 100) < 1) {
     utils.spawnSprite(this.bombsGroup, Bomb, this.x, this.y + 30);
   }
 };

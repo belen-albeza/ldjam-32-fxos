@@ -12,8 +12,15 @@ function setupWaves(group, throwables) {
   return [
     new Wave([
       {offset: 0, klass: LandEnemy, side: 'right'},
-      {offset: 100, klass: LandEnemy, side: 'left'},
-      {offset: 300, klass: LandEnemy, side: 'right'}
+      {offset: 500, klass: LandEnemy, side: 'right'}
+    ], group, throwables),
+
+
+    new Wave([
+      {offset: 0, klass: LandEnemy, side: 'right'},
+      {offset: 200, klass: LandEnemy, side: 'right'},
+      {offset: 200, klass: LandEnemy, side: 'left'},
+      {offset: 1000, klass: BomberEnemy, side: 'right'},
     ], group, throwables),
 
     new Wave([
@@ -24,9 +31,30 @@ function setupWaves(group, throwables) {
       {offset: 1300, klass: LandEnemy, side: 'right'},
       {offset: 1310, klass: LandEnemy, side: 'left'},
       {offset: 1310, klass: LandEnemy, side: 'left'},
-      {offset: 2000, klass: BomberEnemy, side: 'left'},
+      {offset: 2000, klass: BomberEnemy, side: 'right'},
       {offset: 2650, klass: LandEnemy, side: 'right'},
       {offset: 2700, klass: LandEnemy, side: 'left'}
+    ], group, throwables),
+
+    new Wave([
+      {offset: 0, klass: LandEnemy, side: 'right'},
+      {offset: 100, klass: LandEnemy, side: 'left'},
+      {offset: 300, klass: LandEnemy, side: 'right'},
+      {offset: 1000, klass: BomberEnemy, side: 'left'},
+      {offset: 1300, klass: BomberEnemy, side: 'right'},
+      {offset: 1310, klass: LandEnemy, side: 'left'},
+      {offset: 1310, klass: LandEnemy, side: 'left'},
+      {offset: 2000, klass: BomberEnemy, side: 'right'},
+    ], group, throwables),
+
+    new Wave([
+      {offset: 0, klass: LandEnemy, side: 'right'},
+      {offset: 100, klass: LandEnemy, side: 'left'},
+      {offset: 200, klass: LandEnemy, side: 'right'},
+      {offset: 500, klass: BomberEnemy, side: 'left'},
+      {offset: 1300, klass: LandEnemy, side: 'left'},
+      {offset: 1300, klass: BomberEnemy, side: 'left'},
+      {offset: 1500, klass: LandEnemy, side: 'right'},
     ], group, throwables)
   ];
 }
