@@ -29,7 +29,8 @@ var PreloaderScene = {
       'walker_hands': 'enemy00_hands.png',
       'bomber': 'bomber00.png',
       'bomber_wings': 'bomber00_wings.png',
-      'bomb': 'bomb00.png'
+      'bomb': 'bomb00.png',
+      'particle': 'particle.png'
     };
 
     Object.keys(images).forEach(function (key) {
@@ -68,7 +69,7 @@ function startGame() {
 
 window.onload = function () {
   // for dev mode
-  // document.querySelector('.overlayG').style.display = 'none';
+  // document.querySelector('.overlay').style.display = 'none';
   // startGame();
 
   // for production

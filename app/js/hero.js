@@ -17,15 +17,29 @@ function Hero(game, x, y) {
   this.body.immovable = true;
   this.body.setSize(this.width / 2, this.height);
 
+
+  // flames
+  this.flames = game.add.emitter(50, 0, 300);
+  this.addChild(this.flames);
+  this.flames.makeParticles('particle');
+  this.flames.gravity = -160;
+  this.flames.setXSpeed(10);
+  this.flames.setYSpeed(-100, -10);
+  this.flames.setAlpha(0.5, 1);
+  this.flames.minParticleScale = 0.5;
+  this.flames.maxParticleScale = 6;
+  this.flames.blendMode = 1;
+  this.flames.setAll('tint', 0xffaa33);
+
   // guitar - sprite child
-  this.guitar = this.game.add.sprite(25, 10, 'guitar');
+  this.guitar = game.add.sprite(25, 10, 'guitar');
   this.guitar.anchor.setTo(0.5, 0.5);
   this.guitar.angle = -10;
   game.physics.enable(this.guitar, Phaser.Physics.ARCADE);
   this.guitar.body.setSize(this.guitar.width * 0.8, this.guitar.height);
   this.addChild(this.guitar);
 
-  this.tweenGuitar = this.game.add.tween(this.guitar);
+  this.tweenGuitar = game.add.tween(this.guitar);
 
   this.init();
 }
@@ -59,6 +73,8 @@ Hero.prototype.init = function () {
   this.tweenGuitar.to({
     y: this.guitar.y + 4
   }, 200, Phaser.Easing.Default, true, 0, -1, true);
+
+  this.flames.start(false, 500, 20);
 };
 
 
