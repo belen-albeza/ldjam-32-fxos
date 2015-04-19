@@ -74,6 +74,20 @@ var PlayScene = {
     this.spawnLevel();
 
     isGameOver = false;
+
+    // setup UI
+    this.ui = this.game.add.group();
+    this.createUI();
+  },
+
+  createUI: function () {
+    isFontLoaded = true;
+
+    var waveText = this.game.add.text(50, 50, 'Wave #1');
+    waveText.anchor.set(0.5);
+    waveText.font = 'Bangers';
+    waveText.size = 60;
+    this.ui.add(waveText);
   },
 
   spawnLevel: function () {

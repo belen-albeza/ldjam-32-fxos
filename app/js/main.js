@@ -4,7 +4,7 @@ var PlayScene = require('./play_scene.js');
 
 var BootScene = {
   preload: function () {
-    // load here assets required for the loading screen
+    // load here assets required for the preloader screen itself
     this.game.load.image('preloader_bar', 'images/preloader_bar.png');
   },
 
@@ -55,11 +55,11 @@ var PreloaderScene = {
 };
 
 window.onload = function () {
-  var game = new Phaser.Game(900, 500, Phaser.AUTO, 'game');
-
-  game.state.add('boot', BootScene);
-  game.state.add('preloader', PreloaderScene);
-  game.state.add('play', PlayScene);
-
-  game.state.start('boot');
+  // var game = new Phaser.Game(900, 500, Phaser.AUTO, 'game');
+  //
+  // game.state.add('boot', BootScene);
+  // game.state.add('preloader', PreloaderScene);
+  // game.state.add('play', PlayScene);
+  //
+  // game.state.start('boot');
 };
