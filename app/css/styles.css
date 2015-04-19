@@ -55,6 +55,30 @@ body {
   color: #ADED4F;
 }
 
+.controls {
+  position: absolute;
+  left: 20px;
+  bottom: 20px;
+}
+
+.move, .jump {
+  font-size: 30px;
+  letter-spacing: 2px;
+  position: absolute;
+  text-shadow: -2px 2px #000;
+  color: #ADED4F;
+}
+
+.jump {
+  bottom: 60px;
+  left: 100px;
+}
+
+.move {
+  bottom: 15px;
+  left: 150px;
+}
+
 .author {
   position: absolute;
   right: 20px;
@@ -78,4 +102,37 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+.controls {
+  -webkit-animation: pulsate ease-in 1s 0s infinite alternate;
+  -moz-animation: pulsate ease-in 1s 0s infinite alternate;
+  animation: pulsate ease-in 1s 0s infinite alternate;
+}
+
+@-webkit-keyframes pulsate {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@-moz-keyframes pulsate {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulsate {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
