@@ -18,8 +18,9 @@ function Bomb(game, x, y, options) {
 Bomb.prototype = Object.create(Phaser.Sprite.prototype);
 Bomb.prototype.constructor = Bomb;
 
-Bomb.prototype.init = function () {
+Bomb.prototype.init = function (options) {
   this.body.gravity.y = GRAVITY;
+  this.bomberId = options.bomberId;
 };
 
 module.exports = Bomb;

@@ -15,7 +15,6 @@ function setupWaves(group, throwables) {
       {offset: 500, klass: LandEnemy, side: 'right'}
     ], group, throwables),
 
-
     new Wave([
       {offset: 0, klass: LandEnemy, side: 'right'},
       {offset: 200, klass: LandEnemy, side: 'right'},
@@ -187,6 +186,14 @@ var PlayScene = {
     function (hero, enemy) {
       enemy.die();
       this.sfx.hit.play();
+      // destroy bombers' bombs
+      if (enemy.bomberId) {
+        this.enemyThrowables.forEachAlive(function (x) {
+          if (x.bomberId === enemy.bomberId) {
+            x.kill();
+          }
+        });
+      }
     }, function (hero, enemy) {
       return !enemy.dying;
     }, this);

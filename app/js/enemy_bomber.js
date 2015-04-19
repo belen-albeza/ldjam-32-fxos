@@ -6,6 +6,8 @@ var utils = require('./utils.js');
 
 var INIT_Y = 170;
 
+var currentId = 1;
+
 function BomberEnemy(game, x, y, options) {
   options.image = 'bomber';
   EnemyMixin.call(this, game, x, INIT_Y, options);
@@ -30,14 +32,19 @@ BomberEnemy.prototype.init = function (options) {
   this.y = INIT_Y;
 
   this._resetTween();
+
+  this.bomberId = currentId++;
 };
 
 BomberEnemy.prototype.update = function () {
   if (!this.exists) { return; }
 
   EnemyMixin.prototype.update.call(this);
-  if (this.game.rnd.between(0, 100) < 1) {
-    utils.spawnSprite(this.bombsGroup, Bomb, this.x, this.y + 30);
+
+  if (!this.dying && this.game.rnd.between(0, 100) < 3) {
+    utils.spawnSprite(this.bombsGroup, Bomb, this.x, this.y + 30, {
+      bomberId: this.bomberId
+    });
   }
 };
 
