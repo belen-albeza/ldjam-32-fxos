@@ -141,13 +141,6 @@ var PlayScene = {
   spawnLevel: function () {
     this.currentWave = 0;
     this.waves = setupWaves(this.enemies, this.enemyThrowables);
-    // this.depletedWaveCount = 0;
-
-    // this.waves.forEach(function (x) {
-    //   x.onDepleted.add(function () {
-    //     this.depletedWaveCount++;
-    //   }, this);
-    // }.bind(this));
 
     // start the first wave
     if (this.waves.length > 0) {
@@ -323,12 +316,6 @@ var PlayScene = {
 
     this.enemies.removeChildren();
     this.soundtrack.stop();
-  },
-
-  // TODO: right now for debug only -- remove later
-  render: function () {
-    // this.game.debug.body(this.hero);
-    // this.game.debug.body(this.hero.guitar);
   }
 };
 
