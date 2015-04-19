@@ -5,6 +5,8 @@ var LandEnemy = require('./enemy_land.js');
 var BomberEnemy = require('./enemy_bomber.js');
 var Wave = require('./wave.js');
 
+var GREEN = '#aded4f';
+
 function spawnWaves(group, throwables) {
   return [
     new Wave([
@@ -81,12 +83,13 @@ var PlayScene = {
   },
 
   createUI: function () {
-    isFontLoaded = true;
+    var fontStyle = {
+      font: '40px Bangers',
+      fill: GREEN
+    };
 
-    var waveText = this.game.add.text(50, 50, 'Wave #1');
-    waveText.anchor.set(0.5);
-    waveText.font = 'Bangers';
-    waveText.size = 60;
+    var waveText = this.game.add.text(10, 0, 'Wave #1', fontStyle);
+    waveText.setShadow(-4, 4, '#000', 0);
     this.ui.add(waveText);
   },
 
