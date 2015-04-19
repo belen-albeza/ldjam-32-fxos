@@ -2,11 +2,11 @@
 
 var EnemyMixin = require('./enemy_common.js');
 
-var INIT_Y = 375;
+var INIT_Y = 380;
 
 function LandEnemy(game, x, y, options) {
   options.image = 'enemy';
-  EnemyMixin.call(this, game, x, 375, options);
+  EnemyMixin.call(this, game, x, INIT_Y, options);
 }
 
 LandEnemy.prototype = Object.create(EnemyMixin.prototype);

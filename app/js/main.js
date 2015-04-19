@@ -21,6 +21,7 @@ var PreloaderScene = {
 
     // load images
     var images = {
+      'background': 'background.png',
       'ground': 'ground.png',
       'hero': 'chara.png',
       'guitar': 'guitar.png',

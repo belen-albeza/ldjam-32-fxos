@@ -38,14 +38,17 @@ var PlayScene = {
 
     // setup physics
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.game.world.setBounds(0, 0, 900, 420);
+    this.game.world.setBounds(0, 0, 900, 430);
 
-    // setup enemies and ground
-    this.enemyThrowables = this.game.add.group();
+    // setup decoration
+    this.background = this.game.add.sprite(0, 0, 'background');
     this.ground = this.game.add.sprite(0, 500, 'ground');
     this.ground.anchor.setTo(0, 1);
 
-    // See how I digged my own grave because I didn't use composition :_(
+
+    // setup enemies
+    // see how I digged my own grave because I didn't use composition :_(
+    this.enemyThrowables = this.game.add.group();
     this.enemies = this.game.add.group();
 
     // create main character
@@ -155,6 +158,12 @@ var PlayScene = {
     }
 
     this.enemies.removeChildren();
+  },
+
+  // TODO: right now for debug only -- remove later
+  render: function () {
+    // this.game.debug.body(this.hero);
+    // this.game.debug.body(this.hero.guitar);
   }
 };
 
