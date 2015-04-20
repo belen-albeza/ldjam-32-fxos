@@ -32,4 +32,4 @@ gulp.config.json
 .tmp
 build
 dist
-
+sprite_template.js
