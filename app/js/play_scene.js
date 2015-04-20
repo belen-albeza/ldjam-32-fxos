@@ -293,7 +293,7 @@ var PlayScene = {
     this.currentWave++;
     this.waves[this.currentWave].start();
     // update UI
-    this.waveText.setText('Wave #' + (this.currentWave) + ' ');
+    this.waveText.setText('Wave #' + (this.currentWave + 1) + ' ');
 
     this.nextWaveText.visible = true;
     this.nextWaveText.alpha = 1;
