@@ -43,6 +43,7 @@ var PreloaderScene = {
       'hit': 'hit.wav',
       'pickup': 'pickup.wav',
       'next_wave': 'next_wave.wav',
+      'gameover': 'gameover.wav',
       'background': 'soundtrack.ogg'
     };
     Object.keys(sfx).forEach(function (key) {

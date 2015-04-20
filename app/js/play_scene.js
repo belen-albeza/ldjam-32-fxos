@@ -72,7 +72,8 @@ var PlayScene = {
       jump: this.game.add.audio('jump'),
       hit: this.game.add.audio('hit'),
       pickup: this.game.add.audio('pickup'),
-      next: this.game.add.audio('next_wave')
+      next: this.game.add.audio('next_wave'),
+      gameover: this.game.add.audio('gameover')
     };
     this.soundtrack = this.game.add.audio('background');
     this.soundtrack.loopFull(0.8);
@@ -215,6 +216,7 @@ var PlayScene = {
     console.log('** game over **');
 
     isGameOver = true;
+    this.sfx.gameover.play();
 
     // create game over text
     var banner = this.game.add.text(450, 200, ' Game Over ', {
