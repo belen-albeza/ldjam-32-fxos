@@ -157,12 +157,12 @@ var PlayScene = {
     if (!isGameOver && this.waves.length > 0 &&
     this.enemies.countLiving() === 0 &&
     this.waves[this.currentWave].depleted) {
+      this.sfx.next.play();
       // all waves finished?
       if (this.currentWave >= this.waves.length - 1) {
         this.victory();
       }
       else { // still waves to go…
-        this.sfx.next.play();
         this.nextWave();
       }
     }
