@@ -45,6 +45,8 @@ var PreloaderScene = {
       this.game.load.image(key, 'images/' + images[key]);
     }.bind(this));
 
+    this.game.load.spritesheet('buttons', 'images/buttons.png', 50, 50);
+
     // load sfx
     var sfx = {
       'jump': 'chara_jump.wav',
@@ -82,7 +84,6 @@ window.onload = function () {
   startGame();
 
   // for production
-
   // document.getElementById('play').addEventListener('click', function (evt) {
   //   evt.preventDefault();
   //   // hide overlay

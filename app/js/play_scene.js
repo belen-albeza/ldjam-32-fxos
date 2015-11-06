@@ -98,11 +98,55 @@ var PlayScene = {
 
     // setup input keys
     this.keys = this.game.input.keyboard.createCursorKeys();
-    this.keys.up.onDown.add(function () {
-      if (this.hero.alive && this.hero.jump()) {
-        this.sfx.jump.play();
-      }
+    this.keys.up.onDown.add(this.tryJump, this);
+
+    this.padGroup = this.game.add.group();
+    this.isKeyLeft = false;
+    this.isKeyRight = false;
+    this.isKeyUp = false;
+
+    var vPadding = 10;
+    var hPadding = 20;
+    var leftBtn = new Phaser.Button(this.game, hPadding,
+      this.game.height - vPadding, 'buttons');
+    leftBtn.frame = 0;
+    leftBtn.anchor.setTo(0, 1);
+    leftBtn.events.onInputDown.add(function () {
+      this.isKeyLeft = true;
     }.bind(this));
+    leftBtn.events.onInputUp.add(function () {
+      this.isKeyLeft = false;
+    }.bind(this));
+    leftBtn.scale.setTo(2);
+    leftBtn.alpha = 0.25;
+
+    var rightBtn = new Phaser.Button(this.game, hPadding * 3 + leftBtn.width,
+      this.game.height - vPadding, 'buttons');
+    rightBtn.frame = 1;
+    rightBtn.anchor.setTo(0, 1);
+    rightBtn.events.onInputDown.add(function () {
+      this.isKeyRight = true;
+    }.bind(this));
+    rightBtn.events.onInputUp.add(function () {
+      this.isKeyRight = false;
+    }.bind(this));
+    rightBtn.scale.setTo(2);
+    rightBtn.alpha = 0.25;
+
+    var upBtn = new Phaser.Button(this.game, this.game.width - hPadding,
+      this.game.height - vPadding, 'buttons');
+    upBtn.frame = 2;
+    upBtn.anchor.setTo(1, 1);
+    upBtn.events.onInputDown.add(this.tryJump, this);
+    upBtn.scale.setTo(2);
+    upBtn.alpha = 0.25;
+
+    this.padGroup.add(leftBtn);
+    this.padGroup.add(rightBtn);
+    this.padGroup.add(upBtn);
+    // this.pad = {
+    //   left: leftBtn;
+    // }
 
     // game over and victory
     this.hero.events.onKilled.add(this.gameOver, this);
@@ -169,14 +213,20 @@ var PlayScene = {
   },
 
   updateInput: function () {
-    if (this.keys.left.isDown) {
+    if (this.keys.left.isDown || this.isKeyLeft) {
       this.hero.move(-1);
     }
-    else if (this.keys.right.isDown) {
+    else if (this.keys.right.isDown || this.isKeyRight) {
       this.hero.move(1);
     }
     else {
       this.hero.move(0);
+    }
+  },
+
+  tryJump: function () {
+    if (this.hero.alive && this.hero.jump()) {
+      this.sfx.jump.play();
     }
   },
 
@@ -199,21 +249,26 @@ var PlayScene = {
     }, this);
 
     // enemies can kill hero
-    this.game.physics.arcade.overlap(this.hero, this.enemies, enemiesVsHero,
-    function (hero, enemy) { // process function
-      return !enemy.dying;
-    }, this);
+    this.game.physics.arcade.overlap(
+      this.hero,
+      this.enemies,
+      enemiesVsHero.bind(this),
+      function (hero, enemy) { // process function
+        return !enemy.dying;
+      }, this);
 
     // enemy throwables can kill hero too
-    this.game.physics.arcade.overlap(this.hero, this.enemyThrowables,
-    enemiesVsHero, function (hero, enemy) { // process function
-      return !enemy.dying;
-    }, this);
+    this.game.physics.arcade.overlap(
+      this.hero,
+      this.enemyThrowables,
+      enemiesVsHero.bind(this),
+      function (hero, enemy) { // process function
+        return !enemy.dying;
+      }, this);
   },
 
   gameOver: function () {
     // TODO: proper game over plz
-    console.log('** game over **');
 
     isGameOver = true;
     this.sfx.gameover.play();
@@ -252,7 +307,6 @@ var PlayScene = {
 
   victory: function () {
     // TODO: proper victory plz with fireworks and particles and…
-    console.log('** victory **');
     isGameOver = true;
 
     // Yes, REPEATED from gameOver but it's late and I DON'T CARE :)
