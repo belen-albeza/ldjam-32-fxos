@@ -6,13 +6,6 @@ body {
   text-transform: lowercase;
 }
 
-#game {
-  margin: 10px auto;
-  width: 900px;
-  height: 500px;
-  position: relative;
-}
-
 .overlay {
   background: url(../images/overlay_background.png) top left no-repeat;
   position: absolute;

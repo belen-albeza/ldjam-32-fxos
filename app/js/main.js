@@ -3,6 +3,14 @@
 var PlayScene = require('./play_scene.js');
 
 var BootScene = {
+  init: function () {
+    // make the game occuppy all available space, but respecting
+    // aspect ratio – with letterboxing if needed
+    this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    this.game.scale.pageAlignHorizontally = true;
+    this.game.scale.pageAlignVertically = true;
+  },
+
   preload: function () {
     // load here assets required for the preloader screen itself
     this.game.load.image('preloader_bar', 'images/preloader_bar.png');
@@ -59,7 +67,7 @@ var PreloaderScene = {
 };
 
 function startGame() {
-  var game = new Phaser.Game(900, 500, Phaser.AUTO, 'game');
+  var game = new Phaser.Game(900, 500, Phaser.AUTO);
 
   game.state.add('boot', BootScene);
   game.state.add('preloader', PreloaderScene);
@@ -70,16 +78,16 @@ function startGame() {
 
 window.onload = function () {
   // for dev mode
-  // document.querySelector('.overlay').style.display = 'none';
-  // startGame();
+  document.querySelector('.overlay').style.display = 'none';
+  startGame();
 
   // for production
 
-  document.getElementById('play').addEventListener('click', function (evt) {
-    evt.preventDefault();
-    // hide overlay
-    document.querySelector('.overlay').style.display = 'none';
-    // start game!
-    startGame();
-  });
+  // document.getElementById('play').addEventListener('click', function (evt) {
+  //   evt.preventDefault();
+  //   // hide overlay
+  //   document.querySelector('.overlay').style.display = 'none';
+  //   // start game!
+  //   startGame();
+  // });
 };
