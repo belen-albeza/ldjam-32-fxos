@@ -67,10 +67,10 @@ gulp.task('build', ['js']);
 
 gulp.task('copy', function () {
   gulp.src([
-    'index.html', 'css/*.css', 'images/**/*', 'fonts/**/*', 'audio/**/*'
+    'index.html', 'manifest.webapp', 'css/*.css', 'images/**/*', 'fonts/**/*',
+    'audio/**/*'
   ], {cwd: 'app', base: 'app'})
     .pipe(gulp.dest('./dist/'));
-
 
   gulp.src(['js/**/*'], {cwd: '.tmp', base: '.tmp'})
     .pipe(gulp.dest('./dist/'));

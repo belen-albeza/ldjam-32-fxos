@@ -1,0 +1,15 @@
+{
+  "name": "Metal VS Hipsters",
+  "description": "Arcade game",
+  "launch_path": "/index.html",
+  "icons": {
+    "128": "images/icon-128.png"
+  },
+  "developer": {
+    "name": "Belén 'Benko' Albeza",
+    "url": "http://www.belenalbeza.com"
+  },
+  "default_locale": "en",
+  "fullscreen": true,
+  "orientation": ["landscape"]
+}

@@ -113,11 +113,11 @@ var PlayScene = {
 
     // setup physics
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.game.world.setBounds(0, 0, 900, 430);
+    this.game.world.setBounds(0, 0, 900, 330);
 
     // setup decoration
-    this.background = this.game.add.sprite(0, 0, 'background');
-    this.ground = this.game.add.sprite(0, 500, 'ground');
+    this.background = this.game.add.sprite(0, -80, 'background');
+    this.ground = this.game.add.sprite(0, 400, 'ground');
     this.ground.anchor.setTo(0, 1);
 
     // setup enemies
@@ -169,11 +169,11 @@ var PlayScene = {
     this.ui.add(this.waveText);
 
 
-    this.nextWaveText = this.game.add.text(450, 140, ' Next wave! ', {
+    this.nextWaveText = this.game.add.text(450, 0, ' Next wave! ', {
       font: '50px Bangers',
       fill: GREEN
     });
-    this.nextWaveText.anchor.setTo(0.5, 0.5);
+    this.nextWaveText.anchor.setTo(0.5, 0);
     this.nextWaveText.setShadow(-4, 4, '#000', 0);
     this.nextWaveText.visible = false;
 
@@ -271,7 +271,7 @@ var PlayScene = {
     this.sfx.gameover.play();
 
     // create game over text
-    var banner = this.game.add.text(450, 200, ' Game Over ', {
+    var banner = this.game.add.text(450, 100, ' Game Over ', {
       font: '60px Bangers',
       fill: GREEN
     });
@@ -279,7 +279,7 @@ var PlayScene = {
     banner.setShadow(-4, 4, '#000', 0);
 
     // create misc text
-    var button = this.game.add.text(450, 260, '- click to restart -', {
+    var button = this.game.add.text(450, 160, '- click to restart -', {
       font: '24px Courier, "Courier New", monospace',
       fill: '#fff'
     });
@@ -309,7 +309,7 @@ var PlayScene = {
     // Yes, REPEATED from gameOver but it's late and I DON'T CARE :)
 
     // create game over text
-    var banner = this.game.add.text(450, 200, ' Victory! ', {
+    var banner = this.game.add.text(450, 100, ' Victory! ', {
       font: '60px Bangers',
       fill: GREEN
     });
@@ -317,7 +317,7 @@ var PlayScene = {
     banner.setShadow(-4, 4, '#000', 0);
 
     // create misc text
-    var button = this.game.add.text(450, 260, '- click to restart -', {
+    var button = this.game.add.text(450, 160, '- click to restart -', {
       font: '24px Courier, "Courier New", monospace',
       fill: '#fff'
     });

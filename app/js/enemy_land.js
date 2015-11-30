@@ -2,7 +2,7 @@
 
 var EnemyMixin = require('./enemy_common.js');
 
-var INIT_Y = 380;
+var INIT_Y = 280;
 
 function LandEnemy(game, x, y, options) {
   options.image = 'walker';

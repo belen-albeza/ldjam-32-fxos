@@ -4,7 +4,7 @@ var EnemyMixin = require('./enemy_common.js');
 var Bomb = require('./enemy_bomb.js');
 var utils = require('./utils.js');
 
-var INIT_Y = 170;
+var INIT_Y = 70;
 
 var currentId = 1;
 
