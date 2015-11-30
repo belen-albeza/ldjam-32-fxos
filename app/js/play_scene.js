@@ -8,6 +8,39 @@ var Wave = require('./wave.js');
 var GREEN = '#aded4f';
 var RED = '#e40f00';
 
+function createGamepad(game) {
+  var vPadding = 10;
+  var hPadding = 20;
+  var scale = 2;
+
+  var leftBtn = new Phaser.Button(game, hPadding, game.height - vPadding,
+    'buttons');
+  leftBtn.frame = 0;
+
+  var rightBtn = new Phaser.Button(game, hPadding * 3 + leftBtn.width * scale,
+    game.height - vPadding, 'buttons');
+  rightBtn.frame = 1;
+
+  var upBtn = new Phaser.Button(game, game.width - hPadding,
+    game.height - vPadding, 'buttons');
+  upBtn.frame = 2;
+
+  [leftBtn, rightBtn, upBtn].forEach(function (btn) {
+    // register callbacks
+    btn.isDown = false;
+    btn.events.onInputDown.add(function () { btn.isDown = true; });
+    btn.events.onInputUp.add(function () { btn.isDown = false; });
+    // appearance
+    btn.alpha = 0.25;
+    btn.anchor.setTo(0, 1);
+    btn.scale.setTo(scale);
+  });
+
+  upBtn.anchor.setTo(1, 1);
+
+  return { left: leftBtn, right: rightBtn, up: upBtn };
+}
+
 function setupWaves(group, throwables) {
   return [
     new Wave([
@@ -100,53 +133,17 @@ var PlayScene = {
     this.keys = this.game.input.keyboard.createCursorKeys();
     this.keys.up.onDown.add(this.tryJump, this);
 
-    this.padGroup = this.game.add.group();
-    this.isKeyLeft = false;
-    this.isKeyRight = false;
-    this.isKeyUp = false;
+    // create game pad
+    var padGroup = this.game.add.group();
+    var buttons = createGamepad(this.game);
+    Object.keys(buttons).forEach(function (key) {
+      padGroup.add(buttons[key]);
+    });
 
-    var vPadding = 10;
-    var hPadding = 20;
-    var leftBtn = new Phaser.Button(this.game, hPadding,
-      this.game.height - vPadding, 'buttons');
-    leftBtn.frame = 0;
-    leftBtn.anchor.setTo(0, 1);
-    leftBtn.events.onInputDown.add(function () {
-      this.isKeyLeft = true;
-    }.bind(this));
-    leftBtn.events.onInputUp.add(function () {
-      this.isKeyLeft = false;
-    }.bind(this));
-    leftBtn.scale.setTo(2);
-    leftBtn.alpha = 0.25;
-
-    var rightBtn = new Phaser.Button(this.game, hPadding * 3 + leftBtn.width,
-      this.game.height - vPadding, 'buttons');
-    rightBtn.frame = 1;
-    rightBtn.anchor.setTo(0, 1);
-    rightBtn.events.onInputDown.add(function () {
-      this.isKeyRight = true;
-    }.bind(this));
-    rightBtn.events.onInputUp.add(function () {
-      this.isKeyRight = false;
-    }.bind(this));
-    rightBtn.scale.setTo(2);
-    rightBtn.alpha = 0.25;
-
-    var upBtn = new Phaser.Button(this.game, this.game.width - hPadding,
-      this.game.height - vPadding, 'buttons');
-    upBtn.frame = 2;
-    upBtn.anchor.setTo(1, 1);
-    upBtn.events.onInputDown.add(this.tryJump, this);
-    upBtn.scale.setTo(2);
-    upBtn.alpha = 0.25;
-
-    this.padGroup.add(leftBtn);
-    this.padGroup.add(rightBtn);
-    this.padGroup.add(upBtn);
-    // this.pad = {
-    //   left: leftBtn;
-    // }
+    this.keys.btnLeft = buttons.left;
+    this.keys.btnRight = buttons.right;
+    this.keys.btnUp = buttons.up;
+    this.keys.btnUp.events.onInputDown.add(this.tryJump, this);
 
     // game over and victory
     this.hero.events.onKilled.add(this.gameOver, this);
@@ -213,10 +210,10 @@ var PlayScene = {
   },
 
   updateInput: function () {
-    if (this.keys.left.isDown || this.isKeyLeft) {
+    if (this.keys.left.isDown || this.keys.btnLeft.isDown) {
       this.hero.move(-1);
     }
-    else if (this.keys.right.isDown || this.isKeyRight) {
+    else if (this.keys.right.isDown || this.keys.btnRight.isDown) {
       this.hero.move(1);
     }
     else {
