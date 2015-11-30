@@ -117,7 +117,7 @@ var PlayScene = {
 
     // setup decoration
     this.background = this.game.add.sprite(0, -80, 'background');
-    this.ground = this.game.add.sprite(0, 400, 'ground');
+    this.ground = this.game.add.sprite(0, 500, 'ground');
     this.ground.anchor.setTo(0, 1);
 
     // setup enemies
@@ -277,9 +277,11 @@ var PlayScene = {
     });
     banner.anchor.set(0.5, 0.5);
     banner.setShadow(-4, 4, '#000', 0);
+    banner.inputEnabled = true;
+    banner.events.onInputUp.add(this.restartGame, this);
 
     // create misc text
-    var button = this.game.add.text(450, 160, '- click to restart -', {
+    var button = this.game.add.text(450, 160, '- tap to restart -', {
       font: '24px Courier, "Courier New", monospace',
       fill: '#fff'
     });
@@ -287,16 +289,7 @@ var PlayScene = {
     button.setShadow(-2, 2, '#000', 0);
     button.inputEnabled = true;
     button.input.useHandCursor = true;
-    button.events.onInputUp.add(function () {
-      this.wrathOfGod();
-      this.game.state.restart(true, false); // restart the game for now
-    }, this);
-    button.events.onInputOver.add(function () {
-      button.fill = RED;
-    }, this);
-    button.events.onInputOut.add(function () {
-      button.fill = '#fff';
-    });
+    button.events.onInputUp.add(this.restartGame, this);
 
     this.ui.add(banner);
     this.ui.add(button);
@@ -315,9 +308,11 @@ var PlayScene = {
     });
     banner.anchor.set(0.5, 0.5);
     banner.setShadow(-4, 4, '#000', 0);
+    banner.inputEnabled = true;
+    banner.events.onInputUp.add(this.restartGame, this);
 
     // create misc text
-    var button = this.game.add.text(450, 160, '- click to restart -', {
+    var button = this.game.add.text(450, 160, '- tap to restart -', {
       font: '24px Courier, "Courier New", monospace',
       fill: '#fff'
     });
@@ -325,16 +320,7 @@ var PlayScene = {
     button.setShadow(-2, 2, '#000', 0);
     button.inputEnabled = true;
     button.input.useHandCursor = true;
-    button.events.onInputUp.add(function () {
-      this.wrathOfGod();
-      this.game.state.restart(true, false); // restart the game for now
-    }, this);
-    button.events.onInputOver.add(function () {
-      button.fill = RED;
-    }, this);
-    button.events.onInputOut.add(function () {
-      button.fill = '#fff';
-    });
+    button.events.onInputUp.add(this.restartGame, this);
 
     this.ui.add(banner);
     this.ui.add(button);
@@ -369,6 +355,11 @@ var PlayScene = {
 
     this.enemies.removeChildren();
     this.soundtrack.stop();
+  },
+
+  restartGame: function () {
+    this.wrathOfGod();
+    this.game.state.restart(true, false);
   }
 };
 
