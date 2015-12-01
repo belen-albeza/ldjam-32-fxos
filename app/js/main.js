@@ -79,16 +79,16 @@ function startGame() {
 }
 
 window.onload = function () {
-  // for dev mode
-  document.querySelector('.overlay').style.display = 'none';
-  startGame();
+  // // for dev mode
+  // document.querySelector('.overlay').style.display = 'none';
+  // startGame();
 
   // for production
-  // document.getElementById('play').addEventListener('click', function (evt) {
-  //   evt.preventDefault();
-  //   // hide overlay
-  //   document.querySelector('.overlay').style.display = 'none';
-  //   // start game!
-  //   startGame();
-  // });
+  document.getElementById('play').addEventListener('click', function (evt) {
+    evt.preventDefault();
+    // hide overlay
+    document.querySelector('.overlay').style.display = 'none';
+    // start game!
+    startGame();
+  });
 };

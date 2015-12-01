@@ -10,6 +10,7 @@ var source = require('vinyl-source-stream');
 var connect = require('gulp-connect');
 var livereload = require('gulp-livereload');
 var rsync = require('gulp-rsync');
+var ghpages = require('gulp-gh-pages');
 
 // load up config file
 var config  = require('./gulp.config.json');
@@ -90,6 +91,11 @@ gulp.task('deploy', ['dist'], function () {
       progress: true,
       incremental: true
     }));
+});
+
+gulp.task('pages', ['dist'], function () {
+  return gulp.src('./dist/**/*')
+    .pipe(ghpages());
 });
 
 //

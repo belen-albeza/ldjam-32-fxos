@@ -33,3 +33,5 @@ gulp.config.json
 build
 dist
 sprite_template.js
+.publish
+
