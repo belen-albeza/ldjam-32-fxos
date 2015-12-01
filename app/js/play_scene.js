@@ -6,7 +6,6 @@ var BomberEnemy = require('./enemy_bomber.js');
 var Wave = require('./wave.js');
 
 var GREEN = '#aded4f';
-var RED = '#e40f00';
 
 function createGamepad(game) {
   var vPadding = 10;
@@ -181,13 +180,11 @@ var PlayScene = {
   },
 
   spawnLevel: function () {
-    this.currentWave = 0;
-    this.waves = setupWaves(this.enemies, this.enemyThrowables);
+    this.currentWaveIndex = 0;
 
     // start the first wave
-    if (this.waves.length > 0) {
-      this.waves[0].start();
-    }
+    this.wave = this.createWave();
+    this.wave.start();
   },
 
   update: function () {
@@ -195,17 +192,12 @@ var PlayScene = {
     this.detectCollisions();
 
     // check for end of wave
-    if (!isGameOver && this.waves.length > 0 &&
+    if (!isGameOver && this.wave &&
     this.enemies.countLiving() === 0 &&
-    this.waves[this.currentWave].depleted) {
+    this.wave.depleted) {
+      // play sfx and spawn new wave
       this.sfx.next.play();
-      // all waves finished?
-      if (this.currentWave >= this.waves.length - 1) {
-        this.victory();
-      }
-      else { // still waves to go…
-        this.nextWave();
-      }
+      this.nextWave();
     }
   },
 
@@ -327,10 +319,11 @@ var PlayScene = {
   },
 
   nextWave: function () {
-    this.currentWave++;
-    this.waves[this.currentWave].start();
+    this.currentWaveIndex++;
+    var wave = this.createWave();
+    wave.start();
     // update UI
-    this.waveText.setText('Wave #' + (this.currentWave + 1) + ' ');
+    this.waveText.setText('Wave #' + (this.currentWaveIndex + 1) + ' ');
 
     this.nextWaveText.visible = true;
     this.nextWaveText.alpha = 1;
@@ -345,13 +338,26 @@ var PlayScene = {
     tween.start();
   },
 
-  wrathOfGod: function () {
-    // clean up previous waves (and their events)
-    if (this.waves) {
-      this.waves.forEach(function (wave) {
-        wave.destroy();
+  createWave: function () {
+    var wave = [];
+    var enemies = [LandEnemy, LandEnemy, LandEnemy, BomberEnemy];
+    var sides = ['left', 'right'];
+
+    for (var i = 0; i <= this.currentWaveIndex; i++) {
+      wave.push({
+        offset: this.game.rnd.between(200, 1000) * i,
+        klass: i < 3 ? LandEnemy : this.game.rnd.pick(enemies),
+        side: this.game.rnd.pick(sides)
       });
     }
+
+    return new Wave(wave, this.enemies, this.enemyThrowables);
+  },
+
+  wrathOfGod: function () {
+    // clean up previous waves (and their events)
+    if (this.wave) { this.wave.destroy(); }
+    this.wave = null;
 
     this.enemies.removeChildren();
     this.soundtrack.stop();
