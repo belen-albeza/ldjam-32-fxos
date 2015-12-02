@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Bangers';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Bangers'), local('Bangers-Regular'), url(../fonts/Bangers.woff2) format('woff2');
+}
+
 body {
   background: #000;
   color: #ddd;
@@ -7,7 +14,7 @@ body {
 }
 
 .overlay {
-  background: url(../images/overlay_background.png) top left no-repeat;
+  background: url(../images/overlay_background.png) center center no-repeat;
   position: absolute;
   z-index: 1;
   top: 0;
@@ -16,6 +23,7 @@ body {
   bottom: 0;
   font-family: Bangers, sans-serif;
   overflow: hidden;
+  background-size: cover;
 }
 
 .overlay h1 {
@@ -46,12 +54,6 @@ body {
 }
 .overlay button:hover {
   color: #ADED4F;
-}
-
-.controls {
-  position: absolute;
-  left: 20px;
-  bottom: 20px;
 }
 
 .move, .jump {
