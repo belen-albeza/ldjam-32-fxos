@@ -10,6 +10,6 @@
     "url": "http://www.belenalbeza.com"
   },
   "default_locale": "en",
-  "fullscreen": true,
+  "fullscreen": "true",
   "orientation": ["landscape"]
 }
