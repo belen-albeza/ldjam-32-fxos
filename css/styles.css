@@ -27,7 +27,7 @@ body {
 }
 
 .overlay h1 {
-  font-size: 60px;
+  font-size: 3em;
   color: #ADED4F;
   text-shadow: -4px 4px #000;
   letter-spacing: 2px;
@@ -42,7 +42,7 @@ body {
 .overlay button {
   display: inline-block;
   background: none;
-  font-size: 80px;
+  font-size: 5em;
   font-family: Bangers;
   text-shadow: -6px 6px #000;
   letter-spacing: 4px;
@@ -50,28 +50,10 @@ body {
   outline: none;
   cursor: pointer;
   border: none;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .overlay button:hover {
   color: #ADED4F;
-}
-
-.move, .jump {
-  font-size: 30px;
-  letter-spacing: 2px;
-  position: absolute;
-  text-shadow: -2px 2px #000;
-  color: #ADED4F;
-}
-
-.jump {
-  bottom: 60px;
-  left: 100px;
-}
-
-.move {
-  bottom: 15px;
-  left: 150px;
 }
 
 .author {
@@ -81,9 +63,6 @@ body {
   font-size: 20px;
   letter-spacing: 2px;
   text-shadow: -2px 2px #000;
-}
-
-.info {
 }
 
 canvas {
@@ -97,37 +76,4 @@ a {
 
 a:hover {
   text-decoration: underline;
-}
-
-.controls {
-  -webkit-animation: pulsate ease-in 1s 0s infinite alternate;
-  -moz-animation: pulsate ease-in 1s 0s infinite alternate;
-  animation: pulsate ease-in 1s 0s infinite alternate;
-}
-
-@-webkit-keyframes pulsate {
-  0% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@-moz-keyframes pulsate {
-  0% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes pulsate {
-  0% {
-    transform: scale(0.9);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
