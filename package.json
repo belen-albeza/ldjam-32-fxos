@@ -1,33 +1,32 @@
 {
-  "name": "ldjam-32",
+  "name": "metal-vs-hipsters-mobile",
   "version": "1.0.0",
-  "description": "entry for ludum dare 32",
+  "description": "entry for ludum dare 32 - mobile version",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/belen-albeza/ldjam-32.git"
+    "url": "https://github.com/belen-albeza/ldjam-32-fxos.git"
   },
   "author": "Belén \"Benko\" Albeza",
   "license": "CC-BY-NC-SA-4.0",
   "bugs": {
-    "url": "https://github.com/belen-albeza/ldjam-32/issues"
+    "url": "https://github.com/belen-albeza/ldjam-32-fxos/issues"
   },
-  "homepage": "https://github.com/belen-albeza/ldjam-32",
+  "homepage": "https://github.com/belen-albeza/ldjam-32-fxos",
   "dependencies": {
     "browserify": "^9.0.8",
+    "del": "^2.1.0",
     "gulp": "^3.8.11",
     "gulp-connect": "^2.2.0",
+    "gulp-gh-pages": "^0.5.4",
     "gulp-livereload": "^3.8.0",
-    "gulp-rsync": "0.0.5",
     "gulp-util": "^3.0.4",
+    "gulp-zip": "^3.0.2",
     "phaser": "^2.3.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.1.1"
-  },
-  "devDependencies": {
-    "gulp-gh-pages": "^0.5.4"
   }
 }

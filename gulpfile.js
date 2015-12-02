@@ -1,19 +1,18 @@
 'use strict';
 
+var fs = require('fs');
+var del = require('del');
 var gulp = require('gulp');
-var gutil = require('gulp-util');
 
+var gutil = require('gulp-util');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 
 var connect = require('gulp-connect');
 var livereload = require('gulp-livereload');
-var rsync = require('gulp-rsync');
 var ghpages = require('gulp-gh-pages');
-
-// load up config file
-var config  = require('./gulp.config.json');
+var zip = require('gulp-zip');
 
 //
 // browserify and JS
@@ -69,7 +68,7 @@ gulp.task('build', ['js']);
 gulp.task('copy', function () {
   gulp.src([
     'index.html', 'manifest.webapp', 'css/*.css', 'images/**/*', 'fonts/**/*',
-    'audio/**/*'
+    'audio/**/*', 'fonts/**/*'
   ], {cwd: 'app', base: 'app'})
     .pipe(gulp.dest('./dist/'));
 
@@ -79,23 +78,22 @@ gulp.task('copy', function () {
 
 gulp.task('dist', ['build', 'copy']);
 
-gulp.task('deploy', ['dist'], function () {
-  gulp.src('dist')
-    .pipe(rsync({
-      root: 'dist',
-      username: config.deploy.user,
-      hostname: config.deploy.host,
-      destination: config.deploy.destination,
-      recursive: true,
-      clean: true,
-      progress: true,
-      incremental: true
-    }));
+gulp.task('clean', function () {
+  return del(['.tmp', 'dist', '*.zip']);
 });
 
-gulp.task('pages', ['dist'], function () {
+gulp.task('deploy', ['dist'], function () {
   return gulp.src('./dist/**/*')
     .pipe(ghpages());
+});
+
+gulp.task('release', ['dist'], function () {
+  var data = JSON.parse(fs.readFileSync('./package.json'));
+  var filename = data.name + '-' + data.version + '.zip';
+
+  return gulp.src('./dist/**/*')
+    .pipe(zip(filename))
+    .pipe(gulp.dest('.'));
 });
 
 //

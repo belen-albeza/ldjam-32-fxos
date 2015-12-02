@@ -34,4 +34,4 @@ build
 dist
 sprite_template.js
 .publish
-
+*.zip
