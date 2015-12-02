@@ -65,7 +65,7 @@ gulp.task('watch', ['connect'], function () {
 
 gulp.task('build', ['js']);
 
-gulp.task('copy', function () {
+gulp.task('copy', ['build'], function () {
   gulp.src([
     'index.html', 'manifest.webapp', 'css/*.css', 'images/**/*', 'fonts/**/*',
     'audio/**/*', 'fonts/**/*'
@@ -76,7 +76,7 @@ gulp.task('copy', function () {
     .pipe(gulp.dest('./dist/'));
 });
 
-gulp.task('dist', ['build', 'copy']);
+gulp.task('dist', ['copy']);
 
 gulp.task('clean', function () {
   return del(['.tmp', 'dist', '*.zip']);

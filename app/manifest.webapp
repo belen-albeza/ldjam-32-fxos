@@ -3,7 +3,7 @@
   "description": "Arcade game",
   "launch_path": "/index.html",
   "icons": {
-    "128": "images/icon-128.png"
+    "128": "/images/icon-128.png"
   },
   "developer": {
     "name": "Belén 'Benko' Albeza",

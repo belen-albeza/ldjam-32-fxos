@@ -1,10 +1,10 @@
-# Ludum Dare 32
+# Ludum Dare 32 (mobile / Firefox OS version)
 
-Entry for [Ludum Dare #32](http://ludumdare.com/compo/2015/04/15/welcome-to-ludum-dare-32/).
+This is a port to mobile web / Firefox OS of my entry for [Ludum Dare #32](http://ludumdare.com/compo/2015/04/15/welcome-to-ludum-dare-32/).
 
 ## Play
 
-[Play the game](http://lab.belenalbeza.com/games/ldjam-32)!
+[Play the game](https://belen-albeza.github.io/ldjam-32-fxos/)!
 
 ## License
 
