@@ -2,7 +2,7 @@
   font-family: 'Bangers';
   font-style: normal;
   font-weight: 400;
-  src: local('Bangers'), local('Bangers-Regular'), url(../fonts/Bangers.woff2) format('woff2');
+  src: local('Bangers'), local('Bangers-Regular'), url(../fonts/Bangers.woff2) format('woff2'), url(../fonts/Bangers.ttf) format('truetype');
 }
 
 body {
