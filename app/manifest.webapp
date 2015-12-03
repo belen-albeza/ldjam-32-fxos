@@ -11,5 +11,6 @@
   },
   "default_locale": "en",
   "fullscreen": "true",
-  "orientation": ["landscape"]
+  "orientation": ["landscape"],
+  "version": "1.0.1"
 }
