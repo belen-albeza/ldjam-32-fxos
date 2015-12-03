@@ -58,9 +58,9 @@ var PreloaderScene = {
     Object.keys(sfx).forEach(function (key) {
       this.game.load.audio(key, 'audio/' + sfx[key]);
     }.bind(this));
-    // load audio in both ogg + mp3 so Safari for iOS can play files
+    // load audio in both ogg + m4a so Safari for iOS can play files
     this.game.load.audio('background',
-      ['audio/soundtrack.ogg', 'audio/soundtrack.mp3']);
+      ['audio/soundtrack.ogg', 'audio/soundtrack.m4a']);
 
     // TODO: load sfx
   },
